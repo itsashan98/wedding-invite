@@ -156,7 +156,57 @@
     URL.revokeObjectURL(a.href);
   });
 
-  // Reveal cards on scroll
+  // Scroll story: as the guest scrolls through the opening, the lake rises into
+  // view, the sun sets, night falls and the chapters take turns on stage.
+  const story = $("story-scroll");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  const ease = (v) => v * v * (3 - 2 * v);
+  const span = (p, a, b) => ease(clamp((p - a) / (b - a)));
+  const chapters = [...story.querySelectorAll(".chapter")];
+  const windows = [[-1, 0, .2, .3], [.3, .4, .54, .62], [.7, .8, 2, 3]];   // fade in, full, fade out, gone
+
+  const stars = $("stars");
+  for (let i = 0; i < 90; i++) {
+    const st = document.createElement("i");
+    st.style.left = Math.random() * 100 + "%";
+    st.style.top = Math.random() * 100 + "%";
+    st.style.animationDelay = Math.random() * 3 + "s";
+    if (Math.random() < .2) st.style.width = st.style.height = "3px";
+    stars.appendChild(st);
+  }
+
+  const set = (vars) => Object.entries(vars).forEach(([k, v]) => story.style.setProperty("--" + k, v.toFixed(4)));
+  const render = () => {
+    const total = story.offsetHeight - innerHeight;
+    const p = clamp(-story.getBoundingClientRect().top / (total || 1));
+    set({
+      p, rise: span(p, 0, .3), sun: span(p, .3, .75),
+      dusk: span(p, .34, .6), night: span(p, .6, .88),
+    });
+    chapters.forEach((ch, i) => {
+      const [a, b, c, d] = windows[i];
+      const o = Math.min(span(p, a, b), 1 - span(p, c, d));
+      ch.style.opacity = o.toFixed(3);
+      ch.style.transform = `translateY(${((1 - o) * (p < b ? 30 : -30)).toFixed(1)}px)`;
+    });
+  };
+  if (reduced) {
+    set({ p: 0, rise: 1, sun: 0, dusk: 0, night: 0 });
+  } else {
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; render(); });
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll);
+    render();
+  }
+
+  // Storybook pages: each card tilts up into place as it scrolls into view
+  document.querySelectorAll(".timeline li").forEach((li, i) => li.style.setProperty("--i", i));
   const io = new IntersectionObserver((entries) => entries.forEach((en) => {
     if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
   }), { threshold: 0.15 });

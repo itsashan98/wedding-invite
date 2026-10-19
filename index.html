@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Italiana&family=Pinyon+Script&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
-  <script src="config.js?v=5"></script>
+  <link rel="stylesheet" href="style.css?v=6">
+  <script src="config.js?v=6"></script>
 </head>
 <body>
   <!-- Reusable artwork -->
@@ -46,13 +46,18 @@
         <path d="M0 6 C5 40 9 100 5 170" stroke="#4e5d43" stroke-width="2" fill="none" opacity=".7"/>
       </symbol>
 
-      <!-- Lake Como at golden hour -->
-      <symbol id="lake-scene" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
-        <rect width="1440" height="600" fill="url(#g-sky)"/>
+      <!-- Lake Como, split into layers that move separately in the scroll story (all 1440 x 600) -->
+      <symbol id="sc-sun" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
         <circle cx="760" cy="330" r="230" fill="url(#g-sun)"/>
-        <circle cx="760" cy="330" r="46" fill="#fff6e6" opacity=".85"/>
-        <path d="M0 300 L120 230 L210 270 L330 190 L450 260 L560 215 L690 280 L800 240 L930 200 L1050 255 L1170 210 L1300 260 L1440 220 V420 H0Z" fill="#c4cbcb" opacity=".8"/>
-        <path d="M0 350 C120 300 220 330 320 290 C430 250 520 330 640 320 C760 310 860 270 980 300 C1100 330 1200 280 1320 300 C1380 310 1420 330 1440 330 V430 H0Z" fill="#97a7a6"/>
+        <circle cx="760" cy="330" r="46" fill="#fff6e6" opacity=".9"/>
+      </symbol>
+      <symbol id="sc-far" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
+        <path d="M0 300 L120 230 L210 270 L330 190 L450 260 L560 215 L690 280 L800 240 L930 200 L1050 255 L1170 210 L1300 260 L1440 220 V600 H0Z" fill="#c4cbcb"/>
+      </symbol>
+      <symbol id="sc-mid" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
+        <path d="M0 350 C120 300 220 330 320 290 C430 250 520 330 640 320 C760 310 860 270 980 300 C1100 330 1200 280 1320 300 C1380 310 1420 330 1440 330 V600 H0Z" fill="#97a7a6"/>
+      </symbol>
+      <symbol id="sc-lake" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
         <rect y="390" width="1440" height="210" fill="url(#g-lake)"/>
         <g stroke="#f8ecdc" stroke-linecap="round" opacity=".7">
           <path d="M700 410 H820" stroke-width="3"/>
@@ -89,10 +94,50 @@
         <use href="#cypress" x="80"   y="250" width="38" height="190"/>
         <use href="#cypress" x="120"  y="280" width="30" height="160"/>
         <use href="#cypress" x="20"   y="300" width="30" height="150"/>
-        <g transform="translate(560 480)">
-          <path d="M0 0 H60 L50 10 H8Z" fill="#7a4f3a"/>
-          <path d="M30 0 V-34 L52 -2Z" fill="#fbf3e6"/>
+      </symbol>
+      <symbol id="sc-lights" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
+        <g fill="#ffd98a" filter="url(#f-glow)">
+          <g transform="translate(1110 300)">
+            <path d="M60 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M94 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M128 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M162 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M196 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <rect x="70" y="56" width="10" height="14"/><rect x="110" y="56" width="10" height="14"/>
+            <rect x="150" y="56" width="10" height="14"/><rect x="182" y="8" width="10" height="16"/>
+            <rect x="12" y="78" width="10" height="14"/><rect x="38" y="78" width="10" height="14"/>
+          </g>
+          <circle cx="170" cy="392" r="3"/><circle cx="210" cy="400" r="2.5"/><circle cx="250" cy="412" r="3"/>
+          <circle cx="60" cy="372" r="2.5"/><circle cx="290" cy="430" r="2"/>
+          <circle cx="1210" cy="410" r="2.5"/><circle cx="1180" cy="420" r="2"/><circle cx="1300" cy="440" r="3"/>
         </g>
+        <!-- reflections of the villa lights -->
+        <g stroke="#ffd98a" stroke-linecap="round" opacity=".55">
+          <path d="M1180 446 H1200 M1240 452 H1270 M1300 448 H1330" stroke-width="2"/>
+          <path d="M1190 462 H1215 M1260 468 H1280" stroke-width="1.5"/>
+        </g>
+      </symbol>
+      <symbol id="sc-boat" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
+        <g transform="translate(900 425)">
+          <g class="boat">
+            <path d="M0 0 H60 L50 10 H8Z" fill="#7a4f3a"/>
+            <path d="M30 0 V-34 L52 -2Z" fill="#fbf3e6"/>
+          </g>
+        </g>
+      </symbol>
+      <filter id="f-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+
+      <!-- The whole scene at golden hour (used in the venue arch) -->
+      <symbol id="lake-scene" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
+        <rect width="1440" height="600" fill="url(#g-sky)"/>
+        <use href="#sc-sun" width="1440" height="600"/>
+        <use href="#sc-far" width="1440" height="600" opacity=".8"/>
+        <use href="#sc-mid" width="1440" height="600"/>
+        <use href="#sc-lake" width="1440" height="600"/>
+        <g transform="translate(-340 55)"><use href="#sc-boat" width="1440" height="600"/></g>
       </symbol>
 
       <!-- Stone balusters -->
@@ -163,31 +208,57 @@
 
   <div class="petals" aria-hidden="true"></div>
 
-  <header class="hero">
-    <svg class="lemons left" aria-hidden="true"><use href="#lemons"/></svg>
-    <svg class="lemons right" aria-hidden="true"><use href="#lemons"/></svg>
+  <header class="story" id="story-scroll">
+    <div class="stage">
+      <div class="sky sky-day"></div>
+      <div class="sky sky-dusk"></div>
+      <div class="sky sky-night"></div>
+      <div class="stars" id="stars"></div>
+      <div class="moon"></div>
 
-    <div class="hero-text">
-      <p class="greeting" id="greeting" hidden></p>
-      <p class="eyebrow" id="tagline"></p>
-      <h1>
-        <span id="p1"></span>
-        <span class="amp">&amp;</span>
-        <span id="p2"></span>
-      </h1>
-      <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
-      <p class="date" id="date-long"></p>
-      <p class="local" id="local-time"></p>
-    </div>
+      <svg class="lemons left" aria-hidden="true"><use href="#lemons"/></svg>
+      <svg class="lemons right" aria-hidden="true"><use href="#lemons"/></svg>
 
-    <div class="scene" aria-hidden="true">
-      <svg class="lake"><use href="#lake-scene" width="100%" height="100%"/></svg>
-      <svg class="balustrade" preserveAspectRatio="none">
-        <rect y="0" width="100%" height="14" fill="#f6efe3"/>
-        <rect y="12" width="100%" height="3" fill="#d6c6ab"/>
-        <rect y="15" width="100%" height="70" fill="url(#balusters)"/>
-        <rect y="84" width="100%" height="18" fill="#efe5d4"/>
-      </svg>
+      <div class="land" aria-hidden="true">
+        <svg class="layer l-sun"><use href="#sc-sun" width="100%" height="100%"/></svg>
+        <svg class="layer l-far"><use href="#sc-far" width="100%" height="100%"/></svg>
+        <svg class="layer l-mid"><use href="#sc-mid" width="100%" height="100%"/></svg>
+        <svg class="layer l-lake"><use href="#sc-lake" width="100%" height="100%"/></svg>
+        <svg class="layer l-lake l-boat"><use href="#sc-boat" width="100%" height="100%"/></svg>
+        <svg class="layer l-lake l-lights"><use href="#sc-lights" width="100%" height="100%"/></svg>
+        <svg class="layer l-front" preserveAspectRatio="none">
+          <rect y="0" width="100%" height="14" fill="#f6efe3"/>
+          <rect y="12" width="100%" height="3" fill="#d6c6ab"/>
+          <rect y="15" width="100%" height="70" fill="url(#balusters)"/>
+          <rect y="84" width="100%" height="100%" fill="#efe5d4"/>
+        </svg>
+      </div>
+
+      <div class="chapter ch1">
+        <p class="greeting" id="greeting" hidden></p>
+        <p class="eyebrow" id="tagline"></p>
+        <h1>
+          <span id="p1"></span>
+          <span class="amp">&amp;</span>
+          <span id="p2"></span>
+        </h1>
+        <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
+      </div>
+
+      <div class="chapter ch2">
+        <p class="kicker">On a summer evening</p>
+        <p class="date" id="date-long"></p>
+        <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
+        <p class="local" id="local-time"></p>
+      </div>
+
+      <div class="chapter ch3">
+        <p class="kicker">As the sun sets over the lake</p>
+        <p class="ch3-line">we will say <em>s&igrave;</em>,</p>
+        <p class="ch3-sub">and we would love you beside us.</p>
+      </div>
+
+      <div class="scroll-hint" aria-hidden="true"><span>Scroll</span><i></i></div>
     </div>
   </header>
 
@@ -273,7 +344,7 @@
     <p class="sign" id="sign"></p>
   </footer>
 
-  <script src="backend.js?v=5"></script>
-  <script src="script.js?v=5"></script>
+  <script src="backend.js?v=6"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

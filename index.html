@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wedding Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <!-- Reusable floral artwork -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <radialGradient id="g-rose" cx="50%" cy="45%" r="60%">
+        <stop offset="0" stop-color="#f7c6cf"/>
+        <stop offset="1" stop-color="#e48a9c"/>
+      </radialGradient>
+      <radialGradient id="g-peach" cx="50%" cy="45%" r="60%">
+        <stop offset="0" stop-color="#fde3cf"/>
+        <stop offset="1" stop-color="#f2b38f"/>
+      </radialGradient>
+      <symbol id="rose" viewBox="-50 -50 100 100">
+        <circle r="44" fill="url(#g-rose)"/>
+        <path d="M-30 -8 C-28 -34 22 -38 30 -10 C36 12 10 30 -8 26 C-26 22 -32 6 -30 -8Z" fill="#eea2b1"/>
+        <path d="M-18 -4 C-16 -22 16 -24 20 -4 C22 12 4 20 -6 16 C-16 12 -20 4 -18 -4Z" fill="#e48a9c"/>
+        <path d="M-8 -2 C-6 -12 8 -12 10 -2 C10 6 0 10 -4 8 C-8 6 -9 2 -8 -2Z" fill="#cf6f84"/>
+      </symbol>
+      <symbol id="blossom" viewBox="-50 -50 100 100">
+        <g fill="url(#g-peach)">
+          <ellipse rx="16" ry="28" cy="-22"/>
+          <ellipse rx="16" ry="28" cy="-22" transform="rotate(72)"/>
+          <ellipse rx="16" ry="28" cy="-22" transform="rotate(144)"/>
+          <ellipse rx="16" ry="28" cy="-22" transform="rotate(216)"/>
+          <ellipse rx="16" ry="28" cy="-22" transform="rotate(288)"/>
+        </g>
+        <circle r="9" fill="#d9a441"/>
+      </symbol>
+      <symbol id="leaf" viewBox="0 0 100 40">
+        <path d="M0 20 C30 -6 70 -6 100 20 C70 46 30 46 0 20Z" fill="#9db89a"/>
+        <path d="M4 20 H94" stroke="#7d9c7a" stroke-width="2" fill="none"/>
+      </symbol>
+      <symbol id="bouquet" viewBox="0 0 300 300">
+        <use href="#leaf" x="110" y="40"  width="120" height="48" transform="rotate(-30 170 64)"/>
+        <use href="#leaf" x="20"  y="150" width="120" height="48" transform="rotate(70 80 174)"/>
+        <use href="#leaf" x="150" y="130" width="110" height="44" transform="rotate(20 205 152)"/>
+        <use href="#leaf" x="40"  y="40"  width="100" height="40" transform="rotate(40 90 60)"/>
+        <use href="#rose"    x="40"  y="50"  width="120" height="120"/>
+        <use href="#blossom" x="130" y="80"  width="80"  height="80"/>
+        <use href="#rose"    x="20"  y="140" width="80"  height="80"/>
+        <use href="#blossom" x="100" y="10"  width="55"  height="55"/>
+        <use href="#blossom" x="10"  y="20"  width="45"  height="45"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="petals" aria-hidden="true"></div>
+
+  <header class="hero">
+    <svg class="corner tl" aria-hidden="true"><use href="#bouquet"/></svg>
+    <svg class="corner br" aria-hidden="true"><use href="#bouquet"/></svg>
+    <p class="greeting" id="greeting" hidden></p>
+    <p class="eyebrow" id="tagline"></p>
+    <h1><span id="p1"></span><span class="amp">&amp;</span><span id="p2"></span></h1>
+    <p class="date" id="date-long"></p>
+    <p class="local" id="local-time"></p>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div><span id="cd-d">0</span><small>days</small></div>
+      <div><span id="cd-h">0</span><small>hours</small></div>
+      <div><span id="cd-m">0</span><small>minutes</small></div>
+      <div><span id="cd-s">0</span><small>seconds</small></div>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="#rsvp">RSVP</a>
+      <button class="btn" id="add-cal" type="button">Add to calendar</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="card" id="story">
+      <h2>Our story</h2>
+      <p id="story-text"></p>
+    </section>
+
+    <section class="card" id="programme">
+      <h2>The celebration</h2>
+      <ol class="timeline" id="timeline"></ol>
+    </section>
+
+    <section class="card" id="venue">
+      <h2>Where</h2>
+      <p class="venue-name" id="venue-name"></p>
+      <p id="venue-address"></p>
+      <p class="note" id="dress-code"></p>
+      <a class="btn primary" id="map-btn" target="_blank" rel="noopener">View on map</a>
+    </section>
+
+    <section class="card" id="rsvp">
+      <h2>Kindly reply</h2>
+      <p class="note" id="rsvp-by"></p>
+      <form id="rsvp-form">
+        <label>Your name
+          <input name="name" id="r-name" required autocomplete="name">
+        </label>
+        <fieldset>
+          <legend>Will you join us?</legend>
+          <label class="choice"><input type="radio" name="answer" value="yes" required> Joyfully accepts</label>
+          <label class="choice"><input type="radio" name="answer" value="no"> Regretfully declines</label>
+        </fieldset>
+        <label>Number of guests (including you)
+          <input name="guests" id="r-count" type="number" min="1" max="20" value="1">
+        </label>
+        <label>A note for the couple <span class="opt">(optional)</span>
+          <textarea name="message" id="r-msg" rows="3"></textarea>
+        </label>
+        <button class="btn primary" type="submit" id="r-send">Send reply</button>
+        <p class="status" id="rsvp-status" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <svg class="footer-flower" aria-hidden="true"><use href="#bouquet"/></svg>
+    <p>With love, <span id="sign"></span></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

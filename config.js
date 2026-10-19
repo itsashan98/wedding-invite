@@ -30,8 +30,8 @@ window.WEDDING = {
 window.SITE = {
   // Your Supabase project (Project Settings ▸ API). Run supabase.sql in it first.
   // Until these are set, replies go by WhatsApp / email and the admin page can't open.
-  supabaseUrl: "",                        // e.g. "https://abcdefghijkl.supabase.co"
-  supabaseKey: "",                        // the anon / publishable key (safe to be public)
+  supabaseUrl: "https://fgcoqweebuiooqbsmrgs.supabase.co",                        // e.g. "https://abcdefghijkl.supabase.co"
+  supabaseKey: "sb_publishable_v8fyLeCOGCSS-_snU-LP9g_aJNV5PCI",                        // the anon / publishable key (safe to be public)
   // The invitation's public address, used to build personal links. Leave empty
   // to use the address the admin page is opened from.
   siteUrl: "https://itsashan98.github.io/wedding-invite/",

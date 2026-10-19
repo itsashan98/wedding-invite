@@ -4,54 +4,159 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wedding Invitation</title>
+  <meta name="theme-color" content="#f7f1e6">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=4">
-  <script src="config.js?v=4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Italiana&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="config.js?v=5"></script>
 </head>
 <body>
-  <!-- Reusable floral artwork -->
+  <!-- Reusable artwork -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
-      <radialGradient id="g-rose" cx="50%" cy="45%" r="60%">
-        <stop offset="0" stop-color="#f7c6cf"/>
-        <stop offset="1" stop-color="#e48a9c"/>
+      <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f7f1e6"/>
+        <stop offset=".55" stop-color="#f6e2cc"/>
+        <stop offset="1" stop-color="#efc9ab"/>
+      </linearGradient>
+      <linearGradient id="g-lake" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#c9d3cf"/>
+        <stop offset="1" stop-color="#7f98a3"/>
+      </linearGradient>
+      <radialGradient id="g-sun" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#fff4e2"/>
+        <stop offset=".45" stop-color="#fbe2c4" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#f6d6b6" stop-opacity="0"/>
       </radialGradient>
-      <radialGradient id="g-peach" cx="50%" cy="45%" r="60%">
-        <stop offset="0" stop-color="#fde3cf"/>
-        <stop offset="1" stop-color="#f2b38f"/>
+      <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d8bd84"/>
+        <stop offset=".5" stop-color="#a9823f"/>
+        <stop offset="1" stop-color="#d9c08a"/>
+      </linearGradient>
+      <radialGradient id="g-lemon" cx="38%" cy="35%" r="70%">
+        <stop offset="0" stop-color="#fff2a8"/>
+        <stop offset=".6" stop-color="#f3cf4a"/>
+        <stop offset="1" stop-color="#d9a92c"/>
       </radialGradient>
-      <symbol id="rose" viewBox="-50 -50 100 100">
-        <circle r="44" fill="url(#g-rose)"/>
-        <path d="M-30 -8 C-28 -34 22 -38 30 -10 C36 12 10 30 -8 26 C-26 22 -32 6 -30 -8Z" fill="#eea2b1"/>
-        <path d="M-18 -4 C-16 -22 16 -24 20 -4 C22 12 4 20 -6 16 C-16 12 -20 4 -18 -4Z" fill="#e48a9c"/>
-        <path d="M-8 -2 C-6 -12 8 -12 10 -2 C10 6 0 10 -4 8 C-8 6 -9 2 -8 -2Z" fill="#cf6f84"/>
+
+      <!-- Cypress tree -->
+      <symbol id="cypress" viewBox="-20 0 40 200">
+        <path d="M0 0 C9 30 16 90 12 150 C10 180 4 196 0 200 C-4 196 -10 180 -12 150 C-16 90 -9 30 0 0Z" fill="#3c4a35"/>
+        <path d="M0 6 C5 40 9 100 5 170" stroke="#4e5d43" stroke-width="2" fill="none" opacity=".7"/>
       </symbol>
-      <symbol id="blossom" viewBox="-50 -50 100 100">
-        <g fill="url(#g-peach)">
-          <ellipse rx="16" ry="28" cy="-22"/>
-          <ellipse rx="16" ry="28" cy="-22" transform="rotate(72)"/>
-          <ellipse rx="16" ry="28" cy="-22" transform="rotate(144)"/>
-          <ellipse rx="16" ry="28" cy="-22" transform="rotate(216)"/>
-          <ellipse rx="16" ry="28" cy="-22" transform="rotate(288)"/>
+
+      <!-- Lake Como at golden hour -->
+      <symbol id="lake-scene" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
+        <rect width="1440" height="600" fill="url(#g-sky)"/>
+        <circle cx="760" cy="330" r="230" fill="url(#g-sun)"/>
+        <circle cx="760" cy="330" r="46" fill="#fff6e6" opacity=".85"/>
+        <path d="M0 300 L120 230 L210 270 L330 190 L450 260 L560 215 L690 280 L800 240 L930 200 L1050 255 L1170 210 L1300 260 L1440 220 V420 H0Z" fill="#c4cbcb" opacity=".8"/>
+        <path d="M0 350 C120 300 220 330 320 290 C430 250 520 330 640 320 C760 310 860 270 980 300 C1100 330 1200 280 1320 300 C1380 310 1420 330 1440 330 V430 H0Z" fill="#97a7a6"/>
+        <rect y="390" width="1440" height="210" fill="url(#g-lake)"/>
+        <g stroke="#f8ecdc" stroke-linecap="round" opacity=".7">
+          <path d="M700 410 H820" stroke-width="3"/>
+          <path d="M680 428 H850" stroke-width="2"/>
+          <path d="M720 446 H800" stroke-width="2"/>
+          <path d="M650 470 H880" stroke-width="1.5" opacity=".6"/>
+          <path d="M300 440 H360 M1080 455 H1150 M200 500 H240 M1220 510 H1280" stroke-width="1.5" opacity=".5"/>
         </g>
-        <circle r="9" fill="#d9a441"/>
+        <path d="M0 360 C80 350 160 380 240 400 C300 415 330 440 340 470 H0Z" fill="#647760"/>
+        <path d="M1440 330 C1340 335 1250 360 1170 395 C1110 420 1060 440 1030 470 H1440Z" fill="#5a6d57"/>
+        <g transform="translate(1110 300)">
+          <rect x="40" y="40" width="190" height="80" fill="#e9c99a"/>
+          <polygon points="30,42 135,10 240,42" fill="#b8664a"/>
+          <rect x="0" y="62" width="60" height="58" fill="#e3bf8e"/>
+          <polygon points="-6,64 30,46 66,64" fill="#a95b42"/>
+          <rect x="170" y="-10" width="34" height="70" fill="#ecd0a4"/>
+          <polygon points="164,-8 187,-34 210,-8" fill="#a95b42"/>
+          <g fill="#7b6a58" opacity=".75">
+            <path d="M60 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M94 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M128 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M162 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <path d="M196 120 V88 a9 9 0 0 1 18 0 V120Z"/>
+            <rect x="70" y="56" width="10" height="14"/><rect x="110" y="56" width="10" height="14"/>
+            <rect x="150" y="56" width="10" height="14"/><rect x="182" y="8" width="10" height="16"/>
+            <rect x="12" y="78" width="10" height="14"/><rect x="38" y="78" width="10" height="14"/>
+          </g>
+          <rect x="-10" y="120" width="260" height="8" fill="#d8b98c"/>
+        </g>
+        <use href="#cypress" x="1060" y="300" width="34" height="170"/>
+        <use href="#cypress" x="1090" y="320" width="28" height="140"/>
+        <use href="#cypress" x="1370" y="270" width="40" height="200"/>
+        <use href="#cypress" x="1400" y="300" width="30" height="160"/>
+        <use href="#cypress" x="80"   y="250" width="38" height="190"/>
+        <use href="#cypress" x="120"  y="280" width="30" height="160"/>
+        <use href="#cypress" x="20"   y="300" width="30" height="150"/>
+        <g transform="translate(560 480)">
+          <path d="M0 0 H60 L50 10 H8Z" fill="#7a4f3a"/>
+          <path d="M30 0 V-34 L52 -2Z" fill="#fbf3e6"/>
+        </g>
       </symbol>
-      <symbol id="leaf" viewBox="0 0 100 40">
-        <path d="M0 20 C30 -6 70 -6 100 20 C70 46 30 46 0 20Z" fill="#9db89a"/>
-        <path d="M4 20 H94" stroke="#7d9c7a" stroke-width="2" fill="none"/>
+
+      <!-- Stone balusters -->
+      <pattern id="balusters" width="46" height="70" patternUnits="userSpaceOnUse">
+        <path d="M15 0 H31 V6 H28 C28 14 36 20 36 32 C36 46 29 50 29 58 H32 V70 H14 V58 H17 C17 50 10 46 10 32 C10 20 18 14 18 6 H15Z" fill="#f3ebde" stroke="#d6c6ab" stroke-width="1"/>
+      </pattern>
+
+      <!-- Amalfi lemon branch -->
+      <symbol id="lemons" viewBox="0 0 320 200">
+        <path d="M0 18 C70 30 140 40 200 80 C240 106 270 140 300 190" stroke="#6b5a3c" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M110 40 C130 70 140 100 136 128" stroke="#6b5a3c" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <g fill="#5f7a45">
+          <path d="M40 22 C60 -4 96 -2 108 14 C88 30 60 34 40 22Z"/>
+          <path d="M70 30 C78 58 62 80 44 86 C40 62 50 40 70 30Z"/>
+          <path d="M150 50 C176 26 210 30 220 46 C198 62 170 64 150 50Z"/>
+          <path d="M196 76 C220 74 246 92 248 114 C222 116 204 100 196 76Z"/>
+          <path d="M238 118 C266 116 286 136 286 158 C262 160 244 144 238 118Z"/>
+          <path d="M118 60 C96 66 82 90 86 108 C108 102 120 82 118 60Z"/>
+        </g>
+        <g fill="#7f9a5c">
+          <path d="M8 16 C20 -2 44 -2 52 10 C38 22 22 24 8 16Z"/>
+          <path d="M176 70 C190 50 216 52 224 64 C208 78 190 80 176 70Z"/>
+        </g>
+        <ellipse cx="134" cy="146" rx="22" ry="28" transform="rotate(-12 134 146)" fill="url(#g-lemon)"/>
+        <ellipse cx="166" cy="124" rx="18" ry="23" transform="rotate(18 166 124)" fill="url(#g-lemon)"/>
+        <ellipse cx="270" cy="178" rx="16" ry="20" transform="rotate(-20 270 178)" fill="url(#g-lemon)"/>
+        <g fill="#fff" opacity=".5">
+          <ellipse cx="127" cy="136" rx="5" ry="8" transform="rotate(-20 127 136)"/>
+          <ellipse cx="161" cy="116" rx="4" ry="6"/>
+        </g>
+        <g fill="#fffaf0">
+          <circle cx="226" cy="98" r="6"/><circle cx="234" cy="92" r="5"/><circle cx="232" cy="102" r="5"/>
+          <circle cx="231" cy="97" r="2.4" fill="#e7c55a"/>
+        </g>
       </symbol>
-      <symbol id="bouquet" viewBox="0 0 300 300">
-        <use href="#leaf" x="110" y="40"  width="120" height="48" transform="rotate(-30 170 64)"/>
-        <use href="#leaf" x="20"  y="150" width="120" height="48" transform="rotate(70 80 174)"/>
-        <use href="#leaf" x="150" y="130" width="110" height="44" transform="rotate(20 205 152)"/>
-        <use href="#leaf" x="40"  y="40"  width="100" height="40" transform="rotate(40 90 60)"/>
-        <use href="#rose"    x="40"  y="50"  width="120" height="120"/>
-        <use href="#blossom" x="130" y="80"  width="80"  height="80"/>
-        <use href="#rose"    x="20"  y="140" width="80"  height="80"/>
-        <use href="#blossom" x="100" y="10"  width="55"  height="55"/>
-        <use href="#blossom" x="10"  y="20"  width="45"  height="45"/>
+
+      <!-- Gold divider -->
+      <symbol id="flourish" viewBox="0 0 240 24">
+        <path d="M0 12 H92 M148 12 H240" stroke="url(#g-gold)" stroke-width="1"/>
+        <path d="M120 2 L128 12 L120 22 L112 12Z" fill="url(#g-gold)"/>
+        <circle cx="102" cy="12" r="2.4" fill="url(#g-gold)"/>
+        <circle cx="138" cy="12" r="2.4" fill="url(#g-gold)"/>
+      </symbol>
+
+      <!-- Laurel wreath -->
+      <symbol id="laurel" viewBox="0 0 200 200">
+        <g fill="none" stroke="url(#g-gold)" stroke-width="1.6">
+          <path d="M100 186 C40 180 14 130 22 80 C28 50 44 30 64 18"/>
+          <path d="M100 186 C160 180 186 130 178 80 C172 50 156 30 136 18"/>
+        </g>
+        <g fill="url(#g-gold)">
+          <g id="laurel-half">
+            <ellipse cx="34" cy="150" rx="5" ry="12" transform="rotate(-50 34 150)"/>
+            <ellipse cx="22" cy="122" rx="5" ry="12" transform="rotate(-20 22 122)"/>
+            <ellipse cx="20" cy="94" rx="5" ry="12" transform="rotate(5 20 94)"/>
+            <ellipse cx="28" cy="66" rx="5" ry="12" transform="rotate(25 28 66)"/>
+            <ellipse cx="44" cy="42" rx="5" ry="12" transform="rotate(45 44 42)"/>
+            <ellipse cx="54" cy="160" rx="5" ry="12" transform="rotate(-80 54 160)"/>
+            <ellipse cx="40" cy="132" rx="5" ry="11" transform="rotate(-60 40 132)"/>
+            <ellipse cx="36" cy="104" rx="5" ry="11" transform="rotate(-40 36 104)"/>
+            <ellipse cx="42" cy="76" rx="5" ry="11" transform="rotate(-15 42 76)"/>
+          </g>
+          <use href="#laurel-half" transform="translate(200 0) scale(-1 1)"/>
+        </g>
       </symbol>
     </defs>
   </svg>
@@ -59,46 +164,82 @@
   <div class="petals" aria-hidden="true"></div>
 
   <header class="hero">
-    <svg class="corner tl" aria-hidden="true"><use href="#bouquet"/></svg>
-    <svg class="corner br" aria-hidden="true"><use href="#bouquet"/></svg>
-    <p class="greeting" id="greeting" hidden></p>
-    <p class="eyebrow" id="tagline"></p>
-    <h1><span id="p1"></span><span class="amp">&amp;</span><span id="p2"></span></h1>
-    <p class="date" id="date-long"></p>
-    <p class="local" id="local-time"></p>
-    <div class="countdown" id="countdown" aria-live="polite">
-      <div><span id="cd-d">0</span><small>days</small></div>
-      <div><span id="cd-h">0</span><small>hours</small></div>
-      <div><span id="cd-m">0</span><small>minutes</small></div>
-      <div><span id="cd-s">0</span><small>seconds</small></div>
+    <svg class="lemons left" aria-hidden="true"><use href="#lemons"/></svg>
+    <svg class="lemons right" aria-hidden="true"><use href="#lemons"/></svg>
+
+    <div class="hero-text">
+      <p class="greeting" id="greeting" hidden></p>
+      <p class="eyebrow" id="tagline"></p>
+      <h1>
+        <span id="p1"></span>
+        <span class="amp">&amp;</span>
+        <span id="p2"></span>
+      </h1>
+      <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
+      <p class="date" id="date-long"></p>
+      <p class="local" id="local-time"></p>
     </div>
-    <div class="actions">
-      <a class="btn primary" href="#rsvp">RSVP</a>
-      <button class="btn" id="add-cal" type="button">Add to calendar</button>
+
+    <div class="scene" aria-hidden="true">
+      <svg class="lake"><use href="#lake-scene" width="100%" height="100%"/></svg>
+      <svg class="balustrade" preserveAspectRatio="none">
+        <rect y="0" width="100%" height="14" fill="#f6efe3"/>
+        <rect y="12" width="100%" height="3" fill="#d6c6ab"/>
+        <rect y="15" width="100%" height="70" fill="url(#balusters)"/>
+        <rect y="84" width="100%" height="18" fill="#efe5d4"/>
+      </svg>
     </div>
   </header>
 
+  <section class="band">
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div><span id="cd-d">0</span><small>Giorni</small></div>
+      <div><span id="cd-h">0</span><small>Ore</small></div>
+      <div><span id="cd-m">0</span><small>Minuti</small></div>
+      <div><span id="cd-s">0</span><small>Secondi</small></div>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="#rsvp">Kindly reply</a>
+      <button class="btn" id="add-cal" type="button">Add to calendar</button>
+    </div>
+  </section>
+
   <main>
     <section class="card" id="story">
+      <p class="kicker">I · La Nostra Storia</p>
       <h2>Our story</h2>
-      <p id="story-text"></p>
-    </section>
-
-    <section class="card" id="programme">
-      <h2>The celebration</h2>
-      <ol class="timeline" id="timeline"></ol>
+      <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
+      <p class="lead" id="story-text"></p>
     </section>
 
     <section class="card" id="venue">
+      <p class="kicker">II · La Villa</p>
       <h2>Where</h2>
-      <p class="venue-name" id="venue-name"></p>
-      <p id="venue-address"></p>
-      <p class="note" id="dress-code"></p>
-      <a class="btn primary" id="map-btn" target="_blank" rel="noopener">View on map</a>
+      <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
+      <div class="venue">
+        <div class="arch" aria-hidden="true">
+          <svg><use href="#lake-scene" width="100%" height="100%"/></svg>
+        </div>
+        <div>
+          <p class="venue-name" id="venue-name"></p>
+          <p class="venue-address" id="venue-address"></p>
+          <p class="note" id="dress-code"></p>
+          <a class="btn primary" id="map-btn" target="_blank" rel="noopener">View on map</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="programme">
+      <p class="kicker">III · Il Programma</p>
+      <h2>The celebration</h2>
+      <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
+      <ol class="timeline" id="timeline"></ol>
     </section>
 
     <section class="card" id="rsvp">
+      <p class="kicker">IV · R.S.V.P.</p>
       <h2>Kindly reply</h2>
+      <svg class="flourish" aria-hidden="true"><use href="#flourish"/></svg>
       <p class="note" id="rsvp-by"></p>
       <form id="rsvp-form">
         <label>Your name
@@ -106,8 +247,10 @@
         </label>
         <fieldset>
           <legend>Will you join us?</legend>
-          <label class="choice"><input type="radio" name="answer" value="yes" required> Joyfully accepts</label>
-          <label class="choice"><input type="radio" name="answer" value="no"> Regretfully declines</label>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="answer" value="yes" required><span>Joyfully accepts</span></label>
+            <label class="choice"><input type="radio" name="answer" value="no"><span>Regretfully declines</span></label>
+          </div>
         </fieldset>
         <label>Number of guests (including you)
           <input name="guests" id="r-count" type="number" min="1" max="20" value="1">
@@ -122,11 +265,15 @@
   </main>
 
   <footer>
-    <svg class="footer-flower" aria-hidden="true"><use href="#bouquet"/></svg>
-    <p>With love, <span id="sign"></span></p>
+    <div class="monogram" aria-hidden="true">
+      <svg><use href="#laurel"/></svg>
+      <span id="monogram"></span>
+    </div>
+    <p class="con-amore">Con amore</p>
+    <p class="sign" id="sign"></p>
   </footer>
 
-  <script src="backend.js?v=4"></script>
-  <script src="script.js?v=4"></script>
+  <script src="backend.js?v=5"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>

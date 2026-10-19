@@ -10,6 +10,7 @@
   $("p1").textContent = W.partner1;
   $("p2").textContent = W.partner2;
   $("sign").textContent = names;
+  $("monogram").textContent = `${W.partner1[0]}·${W.partner2[0]}`;
   $("story-text").textContent = W.story;
 
   // Date and time in the wedding's own time zone
@@ -176,6 +177,6 @@
       box.appendChild(p);
       setTimeout(() => p.remove(), dur * 1000);
     };
-    setInterval(drop, 900);
+    setInterval(drop, 1400);
   }
 })();

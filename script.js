@@ -55,15 +55,9 @@
   if (W.dressCode) $("dress-code").textContent = `Dress code: ${W.dressCode}`;
   else $("dress-code").hidden = true;
 
-  // RSVP: saved to the couple's Google Sheet when scriptUrl is set,
+  // RSVP: saved to the couple's guest list (Supabase) when it is connected,
   // otherwise sent as a pre-filled WhatsApp message or email.
-  const API = (window.SITE && window.SITE.scriptUrl) || "";
-  const api = async (body) => {
-    const res = await fetch(API, { method: "POST", body: JSON.stringify(body) });
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.error || "failed");
-    return data;
-  };
+  const B = window.Backend;
   let token = new URLSearchParams(location.search).get("g") || "";
   try { if (!token) token = localStorage.getItem("invite.token") || ""; } catch {}
 
@@ -73,8 +67,9 @@
     : "Thank you! We can't wait to celebrate with you.";
 
   // A personal link (?g=token) greets the guest and brings back any earlier reply.
-  if (API && token) {
-    api({ action: "guest", token }).then(({ guest }) => {
+  if (B.ready && token) {
+    B.guest(token).then((guest) => {
+      if (!guest) return;
       if (guest.name) {
         $("greeting").textContent = `Dear ${guest.name},`;
         $("greeting").hidden = false;
@@ -101,12 +96,11 @@
       message: String(f.get("message") || "").trim(),
     };
 
-    if (API) {
+    if (B.ready) {
       $("r-send").disabled = true;
       status("Sending…");
       try {
-        const r = await api({ action: "rsvp", token, ...reply });
-        token = r.token;
+        token = await B.rsvp({ token, ...reply });
         try { localStorage.setItem("invite.token", token); } catch {}
         $("r-send").textContent = "Update reply";
         status(thanks(reply.answer));

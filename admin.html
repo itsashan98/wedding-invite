@@ -55,14 +55,18 @@
     @media (max-width: 560px) { .tally { grid-template-columns: repeat(2, 1fr); } }
   </style>
   <script src="config.js"></script>
+  <script src="backend.js"></script>
 </head>
 <body>
 <main>
   <!-- Sign in -->
   <section class="card login" id="login">
     <h2 id="loginCouple"></h2>
-    <p class="note">Guest list, for the couple only. Enter the password set in the Google Apps Script.</p>
+    <p class="note">Guest list, for the couple only. Log in with the admin user you added in Supabase.</p>
     <form id="loginForm">
+      <label>Email
+        <input type="email" id="email" autocomplete="username" required>
+      </label>
       <label>Password
         <input type="password" id="pw" autocomplete="current-password" required>
       </label>
@@ -120,14 +124,14 @@
 
 <script>
 const $ = (id) => document.getElementById(id);
-const W = window.WEDDING, API = window.SITE.scriptUrl;
+const W = window.WEDDING;
 const couple = `${W.partner1} & ${W.partner2}`;
 const BASE = window.SITE.siteUrl || new URL("./", location.href).href;
 const linkFor = (token) => `${BASE}?g=${encodeURIComponent(token)}`;
 const waText = (name, link) => `Dear ${name}, we would love for you to celebrate our wedding with us. Your personal invitation: ${link}`;
 $("loginCouple").textContent = couple;
 
-let key = "", guests = [], filter = "all", busy = false;
+let guests = [], filter = "all", busy = false;
 
 // ---- Demo mode (admin.html?demo): sample guests kept in memory, any password ----
 const DEMO = new URLSearchParams(location.search).has("demo");
@@ -140,24 +144,22 @@ const demoGuests = [
   { token: "demo5", name: "Ishara Jayasuriya", answer: "",   count: 0, message: "",                       repliedAt: "",      createdAt: ago(48) },
   { token: "demo6", name: "Ruwan Silva",      answer: "",    count: 0, message: "",                       repliedAt: "",      createdAt: ago(24) },
 ];
-async function demoApi(body) {
-  if (body.action === "invite") {
+const demoBackend = {
+  ready: true, signedIn: false,
+  async signIn() { this.signedIn = true; },
+  signOut() { this.signedIn = false; },
+  async list() { return demoGuests.map(g => ({ ...g })); },
+  async invite(name) {
     const token = "demo" + Date.now();
-    demoGuests.push({ token, name: body.name, answer: "", count: 0, message: "", repliedAt: "", createdAt: new Date().toISOString() });
-    return { ok: true, token };
-  }
-  if (body.action === "remove") demoGuests.splice(demoGuests.findIndex(g => g.token === body.token), 1);
-  return { ok: true, guests: demoGuests.map(g => ({ ...g })) };
-}
-
-// ---- Talking to the Google Apps Script ----
-async function api(body) {
-  if (DEMO) return demoApi(body);
-  const res = await fetch(API, { method: "POST", body: JSON.stringify(body) });
-  const data = await res.json();
-  if (!data.ok) throw Object.assign(new Error(data.error || "failed"), { code: data.error });
-  return data;
-}
+    demoGuests.push({ token, name, answer: "", count: 0, message: "", repliedAt: "", createdAt: new Date().toISOString() });
+    return token;
+  },
+  async remove(token) {
+    const i = demoGuests.findIndex(g => g.token === token);
+    if (i >= 0) demoGuests.splice(i, 1);
+  },
+};
+const B = DEMO ? demoBackend : window.Backend;
 
 // ---- Toast and copy ----
 let toastTimer;
@@ -176,45 +178,42 @@ async function copy(text, el) {
 
 // ---- Sign in ----
 async function load() {
-  const r = await api({ action: "list", key });
-  guests = r.guests;
+  guests = await B.list();
   $("updated").textContent = "Updated " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   render();
 }
-async function signIn(pw, quiet) {
-  key = pw;
-  try {
-    await load();
-    try { sessionStorage.setItem("guestlist.key", key); } catch {}
-    $("login").hidden = true; $("panel").hidden = false;
-  } catch (err) {
-    key = "";
-    try { sessionStorage.removeItem("guestlist.key"); } catch {}
-    if (!quiet) $("loginErr").textContent = err.code === "wrong_password"
-      ? "That password doesn't match the one in the Apps Script."
-      : "Couldn't reach the guest list. Check your connection and the script URL in config.js.";
-  }
+function showPanel(on) { $("login").hidden = on; $("panel").hidden = !on; }
+async function openPanel() {
+  try { await load(); showPanel(true); }
+  catch (err) { showPanel(false); if (err.code !== "signed_out") $("loginErr").textContent = "Couldn't load the guest list. Try again."; }
 }
 $("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   $("loginErr").textContent = "";
   $("loginBtn").disabled = true;
-  await signIn($("pw").value, false);
+  try {
+    await B.signIn($("email").value.trim(), $("pw").value);
+    await openPanel();
+  } catch (err) {
+    $("loginErr").textContent =
+      err.code === "wrong_password" ? "That email and password don't match a user in Supabase." :
+      err.code === "not_admin" ? "This user isn't in the admins table. Add their email in supabase.sql." :
+      "Couldn't reach Supabase. Check your connection and the settings in config.js.";
+  }
   $("loginBtn").disabled = false;
 });
 $("signOut").addEventListener("click", () => {
-  key = ""; guests = [];
-  try { sessionStorage.removeItem("guestlist.key"); } catch {}
-  $("panel").hidden = true; $("login").hidden = false; $("pw").value = "";
+  B.signOut(); guests = [];
+  showPanel(false); $("pw").value = "";
 });
 if (DEMO) {
-  signIn("demo", false);
+  B.signIn().then(openPanel);
   toast("Demo mode: sample guests, nothing is saved");
-} else if (!API) {
-  $("loginErr").textContent = "The guest list isn't connected yet. Paste the Apps Script web app URL into scriptUrl in config.js.";
+} else if (!B.ready) {
+  $("loginErr").textContent = "The guest list isn't connected yet. Add your Supabase URL and key to config.js.";
   $("loginBtn").disabled = true;
-} else {
-  try { const saved = sessionStorage.getItem("guestlist.key"); if (saved) signIn(saved, true); } catch {}
+} else if (B.signedIn) {
+  openPanel();
 }
 
 // ---- The list ----
@@ -260,7 +259,7 @@ function render() {
         setTimeout(() => { rm.dataset.armed = ""; rm.textContent = "Remove"; }, 3000);
         return;
       }
-      try { await api({ action: "remove", key, token: g.token }); await load(); toast(`Removed ${g.name}`); }
+      try { await B.remove(g.token); await load(); toast(`Removed ${g.name}`); }
       catch { toast("Couldn't remove. Try again"); }
     });
     bar.append(code, cp, wa, rm); li.append(bar);
@@ -295,8 +294,7 @@ $("inviteForm").addEventListener("submit", async (e) => {
   if (busy) return;
   busy = true; $("inviteBtn").disabled = true;
   try {
-    const r = await api({ action: "invite", key, name });
-    const link = linkFor(r.token);
+    const link = linkFor(await B.invite(name));
     $("newLinkText").textContent = link;
     $("waNewLink").href = `https://wa.me/?text=${encodeURIComponent(waText(name, link))}`;
     $("newLink").hidden = false;
@@ -309,7 +307,7 @@ $("inviteForm").addEventListener("submit", async (e) => {
 $("copyNewLink").addEventListener("click", () => copy($("newLinkText").textContent, $("newLinkText")));
 
 // Keep the list fresh while it's open.
-setInterval(() => { if (key && !document.hidden) load().catch(() => {}); }, 30000);
+setInterval(() => { if (B.signedIn && !document.hidden) load().catch(() => {}); }, 30000);
 </script>
 </body>
 </html>

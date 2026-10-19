@@ -1,7 +1,7 @@
 // ===== Edit these details =====
 window.WEDDING = {
   partner1: "Ashan",
-  partner2: "Amara",
+  partner2: "Sanduni",
   tagline: "Together with their families, invite you to celebrate their wedding",
   start: "2027-06-12T17:00:00+02:00",     // ceremony start, with the couple's UTC offset
   hostZone: "Europe/Rome",               // the wedding's local time zone

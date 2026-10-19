@@ -129,8 +129,30 @@ $("loginCouple").textContent = couple;
 
 let key = "", guests = [], filter = "all", busy = false;
 
+// ---- Demo mode (admin.html?demo): sample guests kept in memory, any password ----
+const DEMO = new URLSearchParams(location.search).has("demo");
+const ago = (h) => new Date(Date.now() - h * 3600000).toISOString();
+const demoGuests = [
+  { token: "demo1", name: "Amaya Perera",     answer: "yes", count: 2, message: "So happy for you both!", repliedAt: ago(5),  createdAt: ago(72) },
+  { token: "demo2", name: "Dilan Fernando",   answer: "yes", count: 1, message: "",                       repliedAt: ago(20), createdAt: ago(72) },
+  { token: "demo3", name: "Sarah Thompson",   answer: "no",  count: 0, message: "Sending love from London", repliedAt: ago(30), createdAt: ago(70) },
+  { token: "demo4", name: "Nimal & Kumari",   answer: "yes", count: 4, message: "We'll bring the kids!",  repliedAt: ago(2),  createdAt: ago(60) },
+  { token: "demo5", name: "Ishara Jayasuriya", answer: "",   count: 0, message: "",                       repliedAt: "",      createdAt: ago(48) },
+  { token: "demo6", name: "Ruwan Silva",      answer: "",    count: 0, message: "",                       repliedAt: "",      createdAt: ago(24) },
+];
+async function demoApi(body) {
+  if (body.action === "invite") {
+    const token = "demo" + Date.now();
+    demoGuests.push({ token, name: body.name, answer: "", count: 0, message: "", repliedAt: "", createdAt: new Date().toISOString() });
+    return { ok: true, token };
+  }
+  if (body.action === "remove") demoGuests.splice(demoGuests.findIndex(g => g.token === body.token), 1);
+  return { ok: true, guests: demoGuests.map(g => ({ ...g })) };
+}
+
 // ---- Talking to the Google Apps Script ----
 async function api(body) {
+  if (DEMO) return demoApi(body);
   const res = await fetch(API, { method: "POST", body: JSON.stringify(body) });
   const data = await res.json();
   if (!data.ok) throw Object.assign(new Error(data.error || "failed"), { code: data.error });
@@ -185,7 +207,10 @@ $("signOut").addEventListener("click", () => {
   try { sessionStorage.removeItem("guestlist.key"); } catch {}
   $("panel").hidden = true; $("login").hidden = false; $("pw").value = "";
 });
-if (!API) {
+if (DEMO) {
+  signIn("demo", false);
+  toast("Demo mode: sample guests, nothing is saved");
+} else if (!API) {
   $("loginErr").textContent = "The guest list isn't connected yet. Paste the Apps Script web app URL into scriptUrl in config.js.";
   $("loginBtn").disabled = true;
 } else {
